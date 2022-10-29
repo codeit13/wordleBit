@@ -23,7 +23,7 @@ button {
 .wordVisibleDiv span {
   font-size: 14px;
   margin-right: 10px;
-  
+
   text-transform: uppercase;
 }
 
@@ -71,7 +71,6 @@ button {
   border-bottom: solid 1px #3a3a3c;
   min-width: 330px;
   max-width: 500px;
-  width: 65vw;
   margin-bottom: 16px;
 }
 
