@@ -1,3 +1,6 @@
+import { wordsAcceptedAsInput } from "../../constants";
+import { randomInteger } from "../../helpers";
+
 import {
   SET_WORD,
   PUSH_LETTER_TO_INPUTBOXES,
@@ -20,7 +23,8 @@ const INITIAL_STATE = {
   ),
   // letterClasses: [...Array(6)].map((e) => Array(5).fill("")),
   currentAttempt: 0,
-  wordToGuess: "",
+  wordToGuess:
+    wordsAcceptedAsInput[randomInteger(0, wordsAcceptedAsInput.length - 1)],
   isGameOver: false,
   ...persistedState,
 };

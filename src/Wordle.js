@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Notyf } from "notyf";
 
-import { wordsList } from "./constants/";
+import { allWords, wordsAcceptedAsInput } from "./constants/";
 import { randomInteger } from "./helpers";
 
 import {
@@ -53,6 +53,8 @@ const Wordle = ({
   setGameOverHandler,
   resetWordleStateHandler,
 }) => {
+  const [wordVisibility, setWordVisibility] = useState(false);
+
   function addHints(currentWord) {
     let correctWordArr = Array.from(wordleState.wordToGuess);
     let guessedWordArr = Array.from(currentWord);
@@ -98,11 +100,20 @@ const Wordle = ({
   function makeAttempt(currentWord) {
     currentWord = currentWord.replace(/[^a-z]+/gi, "").toLowerCase();
     if (wordleState.isGameOver) {
-      notyf.warning("Game has already Finished");
+      notyf.open({
+        type: "warning",
+        message: "Game has already Finished",
+      });
     } else if (currentWord.length !== 5) {
-      notyf.error("Not enough letters!");
-    } else if (!wordsList.includes(currentWord)) {
-      notyf.warning("Word is not in dictionary");
+      notyf.open({
+        type: "warning",
+        message: "Not enough letters!",
+      });
+    } else if (!allWords.includes(currentWord)) {
+      notyf.open({
+        type: "warning",
+        message: "Word is not in dictionary",
+      });
     } else {
       addHints(currentWord);
 
@@ -113,6 +124,7 @@ const Wordle = ({
   }
   function onType(e) {
     const key = e.key;
+    console.log(e.key);
     if (!wordleState.isGameOver)
       if (key === "Enter") {
         if (wordleState.currentAttempt <= 5) {
@@ -143,18 +155,38 @@ const Wordle = ({
       }
   }
   useEffect(() => {
-    // window.addEventListener("keydown", onType, { capture: true });
+    // window.addEventListener("keydown", onType);
 
-    setWordHandler(wordsList[randomInteger(0, wordsList.length - 1)]);
-  }, [setWordHandler, pushLetterToInputBoxesHandler]);
+    setWordHandler(
+      wordsAcceptedAsInput[randomInteger(0, wordsAcceptedAsInput.length - 1)]
+    );
+  }, [setWordHandler]);
 
   return (
     <section>
       <div className="header">
         <div className="title">
           <span>Wordle Bit</span>
-          {wordleState.wordToGuess}
-          <span></span>
+        </div>
+        <div className="wordVisibleDiv">
+          <span>Today's Word: </span>
+          <span className={!wordVisibility ? "display-none" : ""}>
+            {wordleState.wordToGuess}
+          </span>
+          <span className={!wordVisibility ? "" : "display-none"}>*****</span>
+          {wordVisibility ? (
+            <FaEye
+              onClick={(e) => {
+                setWordVisibility(false);
+              }}
+            />
+          ) : (
+            <FaEyeSlash
+              onClick={(e) => {
+                setWordVisibility(true);
+              }}
+            />
+          )}
         </div>
       </div>
       <div className="words">
@@ -170,13 +202,13 @@ const Wordle = ({
           );
         })}
       </div>
-      <span id="candidates-left" style={{ marginTop: "16px" }}></span>
-      <div style={{ position: "relative", marginTop: "16px" }}>
+      <div style={{ marginTop: "16px" }}>
         {wordleState.isGameOver ? (
           <div className="flex-justify-content-center">
             <button
               className="play-again"
               onClick={() => {
+                setWordVisibility(false);
                 resetWordleStateHandler();
               }}
             >

@@ -14,6 +14,27 @@ button {
   cursor: pointer;
 }
 
+.wordVisibleDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.wordVisibleDiv span {
+  font-size: 14px;
+  margin-right: 10px;
+  
+  text-transform: uppercase;
+}
+
+.wordVisibleDiv svg {
+  cursor: pointer;
+}
+
+.display-none {
+  display: none;
+}
+
 .flex-justify-content-center{
   display: flex;
   justify-content: center !important;
@@ -43,16 +64,15 @@ button {
 
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
-  height: 42px;
+  align-items: center;
   padding-bottom: 16px;
   border-bottom: solid 1px #3a3a3c;
   min-width: 330px;
   max-width: 500px;
   width: 65vw;
-  margin: 4px auto 16px auto;
-  position: relative;
+  margin-bottom: 16px;
 }
 
 .header-actions button {
@@ -61,27 +81,11 @@ button {
 }
 
 .title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, calc(-50% - 2px));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 0.2rem;
-}
-
-.title span:first-child {
   font-size: 32px;
-  line-height: 40px;
-}
-
-.title span:last-child {
-  font-size: 10px;
-  letter-spacing: 11px;
-  line-height: 12px;
+  padding: 1rem;
 }
 
 @media (max-width: 360px) {
